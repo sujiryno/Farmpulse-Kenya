@@ -49,3 +49,23 @@ Small- to medium-scale poultry farmers in Kenya (broilers, layers, kienyeji).
 10. Admin Dashboard
 
 ## 📁 Project Structure
+farmpulse-kenya/
+├── app/              # Next.js pages & routes
+├── components/       # Reusable UI components
+├── lib/              # Utilities & Supabase client
+├── docs/             # PRD, progress log, diagrams
+├── supabase/         # Edge Functions & migrations
+├── public/           # Static assets
+└── README.md
+
+```
+## Getting started (local setup)
+git clone ...
+cd farmpulse-kenya
+npm install
+cp .env.example .env.local
+npm run dev
+
+
+Author: Waikwa Maranga
+License: Confidential
