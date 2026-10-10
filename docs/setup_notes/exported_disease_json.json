@@ -1,0 +1,15 @@
+{
+  "diseases": [
+    {
+      "name": "Newcastle Disease",
+      "poultry_types": ["broiler","layer","kienyeji"],
+      "symptoms": ["twisted neck","laboured breathing","greenish diarrhoea","dull eyes","ruffled feathers","sudden death"],
+      "cause": "Avian paramyxovirus type 1",
+      "treatment": "No specific treatment; supportive care: electrolytes, vitamins...",
+      "prevention": "Vaccinate at 1 day, 21 days, 8 weeks...",
+      "mortality_rate": "High (80-100% in unvaccinated)",
+      "recommended_medicines": ["Newcastle vaccine (LaSota)","Electrolyte supplements","Multivitamins"]
+    },
+    ...
+  ]
+}

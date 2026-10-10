@@ -1,0 +1,3 @@
+supabase functions deploy export-diseases-to-claude --no-verify-jwt
+
+supabase secrets set CRON_SECRET=your_strong_random_secret

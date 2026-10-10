@@ -1,0 +1,206 @@
+
+
+{
+  "diseases": [
+    {
+      "name": "Newcastle Disease",
+      "poultry_types": ["broiler", "layer", "kienyeji"],
+      "symptoms": ["twisted neck", "laboured breathing", "greenish diarrhoea", "dull eyes", "ruffled feathers", "sudden death"],
+      "cause": "Avian paramyxovirus type 1",
+      "treatment": "No specific treatment; supportive care: electrolytes, vitamins. Vaccination of remaining flock.",
+      "prevention": "Vaccinate at 1 day, 21 days, 8 weeks. Biosecurity: isolate new birds, disinfect footwear.",
+      "mortality_rate": "High (80-100% in unvaccinated)",
+      "recommended_medicines": ["Newcastle vaccine (LaSota)", "Electrolyte supplements", "Multivitamins"]
+    },
+    {
+      "name": "Gumboro Disease (IBD)",
+      "poultry_types": ["broiler", "layer"],
+      "symptoms": ["drooping wings", "ruffled feathers", "huddled posture", "bloody/watery white droppings", "lethargy", "vent picking"],
+      "cause": "Infectious bursal disease virus",
+      "treatment": "No antiviral. Supportive care: warm environment, electrolyte water. Antibiotics for secondary infections.",
+      "prevention": "Vaccinate breeders and chicks. Strict hygiene between batches.",
+      "mortality_rate": "Moderate to high (20-50%)",
+      "recommended_medicines": ["Gumboro vaccine (intermediate)", "Amoxycillin", "Vitamin C"]
+    },
+    {
+      "name": "Fowl Pox",
+      "poultry_types": ["broiler", "layer", "kienyeji"],
+      "symptoms": ["dark raised scabby lesions on comb/wattles", "nodules around eyes", "difficulty eating", "weight loss", "drop in egg production"],
+      "cause": "Avian poxvirus",
+      "treatment": "No treatment. Supportive: soft food, clean water. Apply iodine to lesions if severe.",
+      "prevention": "Vaccination with fowl pox vaccine. Mosquito control.",
+      "mortality_rate": "Low (1-5%) but causes production loss",
+      "recommended_medicines": ["Fowl pox vaccine", "Iodine solution", "Antiseptic spray"]
+    },
+    {
+      "name": "Coccidiosis",
+      "poultry_types": ["broiler", "layer", "kienyeji"],
+      "symptoms": ["bloody reddish-brown droppings", "hunched posture", "pale comb", "ruffled feathers", "weakness", "poor growth"],
+      "cause": "Eimeria protozoa",
+      "treatment": "Anticoccidial drugs in water. Supportive: vitamins A, D, K. Clean dry litter.",
+      "prevention": "Use coccidiostats in feed. Keep litter dry. Rotate anticoccidials.",
+      "mortality_rate": "Moderate (10-40% in severe cases)",
+      "recommended_medicines": ["Amprolium", "Toltrazuril", "Sulphonamides", "Vitamin K"]
+    },
+    {
+      "name": "Marek's Disease",
+      "poultry_types": ["broiler", "layer"],
+      "symptoms": ["leg paralysis (one leg forward, one back)", "grey eye", "tumours on skin", "weight loss", "sudden death"],
+      "cause": "Marek's disease virus",
+      "treatment": "No treatment. Cull affected birds. Vaccinate day-old chicks.",
+      "prevention": "Vaccinate at hatchery. Genetic resistance. Biosecurity.",
+      "mortality_rate": "High (50-80% in unvaccinated)",
+      "recommended_medicines": ["Marek's vaccine (HVT)"]
+    },
+    {
+      "name": "Fowl Typhoid",
+      "poultry_types": ["broiler", "layer", "kienyeji"],
+      "symptoms": ["greenish-yellow diarrhoea", "pale comb/wattles", "depression", "drooping wings", "reduced feed intake"],
+      "cause": "Salmonella gallinarum",
+      "treatment": "Antibiotics (oxytetracycline, enrofloxacin). Disinfect house. Cull carriers.",
+      "prevention": "Rodent control. Buy Salmonella-free stock. Biosecurity.",
+      "mortality_rate": "Moderate to high (20-60%)",
+      "recommended_medicines": ["Oxytetracycline", "Enrofloxacin", "Disinfectant"]
+    },
+    {
+      "name": "Infectious Bronchitis (IB)",
+      "poultry_types": ["broiler", "layer"],
+      "symptoms": ["coughing", "sneezing", "watery eyes", "misshapen eggs", "reduced egg production", "kidney damage"],
+      "cause": "Coronavirus",
+      "treatment": "No antiviral. Warm dry housing. Antibiotics for secondary bacteria.",
+      "prevention": "Vaccination. All-in-all-out management.",
+      "mortality_rate": "Low (1-10%) but egg production drops 50%",
+      "recommended_medicines": ["IB vaccine", "Tylosin", "Electrolytes"]
+    },
+    {
+      "name": "Infectious Coryza",
+      "poultry_types": ["broiler", "layer", "kienyeji"],
+      "symptoms": ["facial swelling", "foul nasal discharge", "watery eyes", "laboured breathing", "decreased feed"],
+      "cause": "Avibacterium paragallinarum",
+      "treatment": "Sulphonamides, erythromycin, or oxytetracycline. Isolate sick birds.",
+      "prevention": "Biosecurity. Vaccination available.",
+      "mortality_rate": "Low (1-5%) but morbidity 50%",
+      "recommended_medicines": ["Sulphadimethoxine", "Erythromycin", "Oxytetracycline"]
+    },
+    {
+      "name": "Mycoplasmosis (CRD)",
+      "poultry_types": ["broiler", "layer"],
+      "symptoms": ["nasal discharge", "coughing", "sinus swelling", "bubbly eyes", "poor growth", "reduced eggs"],
+      "cause": "Mycoplasma gallisepticum",
+      "treatment": "Tylosin, enrofloxacin, or tetracyclines in water.",
+      "prevention": "Buy Mycoplasma-free chicks. Biosecurity.",
+      "mortality_rate": "Low mortality but chronic loss",
+      "recommended_medicines": ["Tylosin tartrate", "Enrofloxacin", "Doxycycline"]
+    },
+    {
+      "name": "Avian Influenza (Low Path)",
+      "poultry_types": ["broiler", "layer", "kienyeji"],
+      "symptoms": ["sudden egg drop", "respiratory signs", "swollen head", "purplish comb", "diarrhoea"],
+      "cause": "Influenza A virus",
+      "treatment": "No treatment in Kenya (reportable). Quarantine, culling.",
+      "prevention": "Biosecurity – prevent contact with wild waterfowl.",
+      "mortality_rate": "Low to moderate (5-15%)",
+      "recommended_medicines": ["Notify vet immediately"]
+    },
+    {
+      "name": "Pullorum Disease",
+      "poultry_types": ["broiler", "layer", "kienyeji"],
+      "symptoms": ["white pasted vent", "chicks huddling", "chirping", "difficulty breathing", "dead early"],
+      "cause": "Salmonella pullorum",
+      "treatment": "No treatment. Cull entire flock. Disinfect house.",
+      "prevention": "Buy from Pullorum-clean sources. Blood test breeders.",
+      "mortality_rate": "High (50-80% in chicks)",
+      "recommended_medicines": ["No treatment – culling required"]
+    },
+    {
+      "name": "Egg Drop Syndrome (EDS)",
+      "poultry_types": ["layer"],
+      "symptoms": ["thin-shelled/soft eggs", "pale eggs", "loss of shell colour", "normal feed intake"],
+      "cause": "Adenovirus",
+      "treatment": "No treatment. Vaccinate at 16-18 weeks. Supportive nutrition.",
+      "prevention": "Vaccinate pullets before lay. Biosecurity.",
+      "mortality_rate": "Low mortality, 40% production loss",
+      "recommended_medicines": ["EDS vaccine", "Calcium supplement", "Vitamin D3"]
+    },
+    {
+      "name": "Botulism",
+      "poultry_types": ["broiler", "layer", "kienyeji"],
+      "symptoms": ["progressive paralysis", "limp neck", "closed eyelids", "difficulty breathing", "sudden death"],
+      "cause": "Clostridium botulinum toxin from rotten feed/carcasses",
+      "treatment": "Remove toxin source. Epsom salts. Supportive glucose water.",
+      "prevention": "Dispose of dead birds immediately. No rotten vegetable matter.",
+      "mortality_rate": "High (50-80%)",
+      "recommended_medicines": ["Epsom salts", "Electrolytes", "Charcoal"]
+    },
+    {
+      "name": "Omphalitis (Mushy Chick)",
+      "poultry_types": ["broiler", "layer"],
+      "symptoms": ["swollen/yellowish navel", "lethargy", "rough feathers", "huddling", "early mortality"],
+      "cause": "Bacterial infection – poor hatchery hygiene",
+      "treatment": "Antibiotics (amoxycillin, enrofloxacin) in water. Warm brooder.",
+      "prevention": "Disinfect hatchery equipment. Brooder hygiene.",
+      "mortality_rate": "High (30-80%)",
+      "recommended_medicines": ["Amoxycillin", "Enrofloxacin", "Chlorhexidine"]
+    },
+    {
+      "name": "Aspergillosis",
+      "poultry_types": ["broiler", "layer", "kienyeji"],
+      "symptoms": ["gasping", "rapid breathing", "yellowish nodules in mouth", "eye swelling", "emaciation"],
+      "cause": "Aspergillus fumigatus from mouldy litter/feed",
+      "treatment": "Remove mouldy litter. Nystatin or itraconazole.",
+      "prevention": "Dry clean litter. Avoid mouldy feed. Ventilation.",
+      "mortality_rate": "Moderate (10-30%)",
+      "recommended_medicines": ["Nystatin", "Copper sulphate (low conc.)", "Vitamin A"]
+    },
+    {
+      "name": "Necrotic Enteritis",
+      "poultry_types": ["broiler"],
+      "symptoms": ["sudden mortality spike", "bloody dark droppings", "hunched birds", "ruffled feathers", "diarrhoea"],
+      "cause": "Clostridium perfringens (often after coccidiosis)",
+      "treatment": "Amoxycillin, penicillin, or bacitracin in water. Treat coccidiosis first.",
+      "prevention": "Prevent coccidiosis. Avoid high-protein diets. Clean litter.",
+      "mortality_rate": "Moderate to high (20-50%)",
+      "recommended_medicines": ["Amoxycillin", "Bacitracin", "Probiotics"]
+    },
+    {
+      "name": "Vitamin A Deficiency",
+      "poultry_types": ["broiler", "layer", "kienyeji"],
+      "symptoms": ["white plaques in mouth/throat", "crusty eyes", "ruffled feathers", "poor growth", "watery eye discharge"],
+      "cause": "Poor quality feed, lack of vitamin premix",
+      "treatment": "Vitamin A supplement (10,000 IU/kg feed for 1 week). Add greens.",
+      "prevention": "Use commercial feed with balanced vitamins. Offer fresh greens.",
+      "mortality_rate": "Low mortality",
+      "recommended_medicines": ["Vitamin A oral drops", "Multivitamin premix", "Carrots/greens"]
+    },
+    {
+      "name": "Cannibalism (Behavioural)",
+      "poultry_types": ["broiler", "layer", "kienyeji"],
+      "symptoms": ["pecking vents/feathers", "bloodied birds", "feather loss", "stress", "mortality from bleeding"],
+      "cause": "Overcrowding, bright light, protein deficiency",
+      "treatment": "Reduce light. Provide pecking blocks. Increase methionine. Beak trimming (last resort).",
+      "prevention": "Proper density (max 8-10 birds/m²). Balanced diet. Enrichment.",
+      "mortality_rate": "Variable (5-30%)",
+      "recommended_medicines": ["Methionine supplement", "Red lights", "Anti-pecking spray"]
+    },
+    {
+      "name": "Heat Stress",
+      "poultry_types": ["broiler", "layer", "kienyeji"],
+      "symptoms": ["panting", "wings spread", "lethargy", "red comb", "sudden death midday", "reduced feed"],
+      "cause": "High ambient temperature >32°C, poor ventilation",
+      "treatment": "Move to shade. Cool water with electrolytes/vitamin C. Mist fans.",
+      "prevention": "Plant trees. Ventilation. Water always available. Feed early morning.",
+      "mortality_rate": "Moderate (5-20% during heatwave)",
+      "recommended_medicines": ["Vitamin C", "Electrolyte powder", "Potassium chloride"]
+    },
+    {
+      "name": "Newcastle Disease (Variant)",
+      "poultry_types": ["broiler", "layer", "kienyeji"],
+      "symptoms": ["mild respiratory signs", "drop in egg production", "few neurological signs", "mild diarrhoea", "moderate mortality"],
+      "cause": "Avian paramyxovirus (lentogenic or mesogenic strain)",
+      "treatment": "Supportive care. Vaccination with appropriate strain.",
+      "prevention": "Vaccination. Biosecurity.",
+      "mortality_rate": "Low (5-20%)",
+      "recommended_medicines": ["Newcastle vaccine (VG/GA)", "Multivitamins"]
+    }
+  ]
+}

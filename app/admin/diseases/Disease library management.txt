@@ -1,0 +1,63 @@
+'use client'
+import { useEffect, useState } from 'react'
+import { createClient } from '@/utils/supabase/client'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+
+export default function DiseaseManager() {
+  const [diseases, setDiseases] = useState<any[]>([])
+  const [editing, setEditing] = useState<any>(null)
+  const supabase = createClient()
+  
+  useEffect(() => { fetchDiseases() }, [])
+  
+  async function fetchDiseases() {
+    const { data } = await supabase.from('diseases').select('*').order('name')
+    setDiseases(data || [])
+  }
+  
+  async function saveDisease(disease: any) {
+    if (disease.id) {
+      await supabase.from('diseases').update(disease).eq('id', disease.id)
+    } else {
+      await supabase.from('diseases').insert(disease)
+    }
+    fetchDiseases()
+    setEditing(null)
+  }
+  
+  async function deleteDisease(id: number) {
+    await supabase.from('diseases').delete().eq('id', id)
+    fetchDiseases()
+  }
+  
+  return (
+    <div className="space-y-4">
+      <h1>Disease Library Manager</h1>
+      <Button onClick={() => setEditing({ name: '', symptoms: [], cause: '', treatment: '', prevention: '', poultry_types: [] })}>
+        Add Disease
+      </Button>
+      {editing && (
+        <div className="border p-4">
+          <Input placeholder="Name" value={editing.name} onChange={e => setEditing({...editing, name: e.target.value})} />
+          <Textarea placeholder="Symptoms (comma separated)" value={editing.symptoms?.join(',')} onChange={e => setEditing({...editing, symptoms: e.target.value.split(',')})} />
+          <Textarea placeholder="Cause" value={editing.cause} onChange={e => setEditing({...editing, cause: e.target.value})} />
+          <Textarea placeholder="Treatment" value={editing.treatment} onChange={e => setEditing({...editing, treatment: e.target.value})} />
+          <Textarea placeholder="Prevention" value={editing.prevention} onChange={e => setEditing({...editing, prevention: e.target.value})} />
+          <Button onClick={() => saveDisease(editing)}>Save</Button>
+          <Button variant="outline" onClick={() => setEditing(null)}>Cancel</Button>
+        </div>
+      )}
+      {diseases.map(d => (
+        <div key={d.id} className="border p-2 flex justify-between items-center">
+          <span>{d.name}</span>
+          <div>
+            <Button size="sm" onClick={() => setEditing(d)}>Edit</Button>
+            <Button size="sm" variant="destructive" onClick={() => deleteDisease(d.id)}>Delete</Button>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}

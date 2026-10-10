@@ -1,0 +1,44 @@
+'use client'
+import { useEffect, useState } from 'react'
+import { createClient } from '@/utils/supabase/client'
+import { Button } from '@/components/ui/button'
+
+export default function FeedPriceModeration() {
+  const [submissions, setSubmissions] = useState<any[]>([])
+  const supabase = createClient()
+  
+  useEffect(() => {
+    fetchSubmissions()
+  }, [])
+  
+  async function fetchSubmissions() {
+    const { data } = await supabase
+      .from('feed_prices')
+      .select('*, farmers(name, phone)')
+      .eq('verified', false)
+      .order('submitted_at', { ascending: false })
+    setSubmissions(data || [])
+  }
+  
+  async function moderate(id: number, verified: boolean) {
+    await supabase
+      .from('feed_prices')
+      .update({ verified, verified_at: new Date().toISOString() })
+      .eq('id', id)
+    fetchSubmissions()
+  }
+  
+  return (
+    <div>
+      <h1>Moderate Feed Price Submissions</h1>
+      {submissions.map(sub => (
+        <div key={sub.id} className="border p-4 my-2 rounded">
+          <p><strong>{sub.brand}</strong> - {sub.feed_type} - KES {sub.price_kes}</p>
+          <p>County: {sub.county} | Submitted by: {sub.farmers?.name || 'Anonymous'}</p>
+          <Button onClick={() => moderate(sub.id, true)}>Approve</Button>
+          <Button variant="destructive" onClick={() => moderate(sub.id, false)}>Reject</Button>
+        </div>
+      ))}
+    </div>
+  )
+}

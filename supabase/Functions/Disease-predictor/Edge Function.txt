@@ -1,0 +1,65 @@
+supabase functions new export-diseases-to-claude
+// supabase/functions/export-diseases-to-claude/index.ts
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.0'
+
+Deno.serve(async (req) => {
+  // Only allow internal cron calls or authenticated admin requests
+  const authHeader = req.headers.get('Authorization')
+  const isCron = req.headers.get('X-Supabase-Cron') === 'true'
+  
+  if (!isCron && authHeader !== `Bearer ${Deno.env.get('CRON_SECRET')}`) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 })
+  }
+
+  const supabase = createClient(
+    Deno.env.get('SUPABASE_URL')!,
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+  )
+
+  // 1. Fetch all diseases
+  const { data: diseases, error } = await supabase
+    .from('diseases')
+    .select('*')
+    .order('id')
+
+  if (error) {
+    console.error('Error fetching diseases:', error)
+    return new Response(JSON.stringify({ error: error.message }), { status: 500 })
+  }
+
+  if (!diseases || diseases.length === 0) {
+    return new Response(JSON.stringify({ warning: 'No diseases found' }), { status: 200 })
+  }
+
+  // 2. Transform to Claude format (array only)
+  const claudeArray = diseases.map(d => ({
+    name: d.name,
+    poultry_types: d.poultry_types,
+    symptoms: d.symptoms,
+    cause: d.cause,
+    treatment: d.treatment,
+    prevention: d.prevention,
+    mortality_rate: d.mortality_rate,
+    recommended_medicines: d.recommended_medicines || []
+  }))
+
+  // 3. Store in app_config
+  const { error: upsertError } = await supabase
+    .from('app_config')
+    .upsert({
+      key: 'claude_disease_library',
+      value: JSON.stringify(claudeArray),  // store the raw array as string
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'key' })
+
+  if (upsertError) {
+    console.error('Error upserting config:', upsertError)
+    return new Response(JSON.stringify({ error: upsertError.message }), { status: 500 })
+  }
+
+  return new Response(JSON.stringify({
+    success: true,
+    count: diseases.length,
+    updated_at: new Date().toISOString()
+  }), { status: 200 })
+})

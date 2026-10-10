@@ -1,0 +1,13 @@
+app/admin/
+  page.tsx                 # Dashboard overview
+  vets/
+    page.tsx               # List pending vets
+  prices/
+    feed/
+      page.tsx             # Pending feed price submissions
+    medicine/
+      page.tsx             # Pending medicine price submissions
+  diseases/
+    page.tsx               # Manage disease library
+  alerts/
+    page.tsx               # Create outbreak alerts

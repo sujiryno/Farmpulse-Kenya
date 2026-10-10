@@ -1,0 +1,6 @@
+supabase secrets set MPESA_CONSUMER_KEY=your_consumer_key
+supabase secrets set MPESA_CONSUMER_SECRET=your_consumer_secret
+supabase secrets set MPESA_PASSKEY=your_passkey
+supabase secrets set MPESA_SHORTCODE=174379
+supabase secrets set MPESA_ENV=sandbox   # or production
+supabase secrets set APP_BASE_URL=https://your-app.com
