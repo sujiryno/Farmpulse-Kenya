@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+build/
+
+# Environment variables (CRITICAL!)
+.env
+.env.local
+.env*.local
+
+# Supabase
+supabase/.branches
+supabase/.temp
+
+# System files
+.DS_Store
+Thumbs.db
