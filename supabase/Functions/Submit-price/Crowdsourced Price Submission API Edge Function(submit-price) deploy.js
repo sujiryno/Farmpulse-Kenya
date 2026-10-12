@@ -1,1 +1,0 @@
-supabase functions deploy submit-price --no-verify-jwt

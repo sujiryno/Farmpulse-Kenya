@@ -1,17 +1,3 @@
-
--- Create diseases table if not exists (from PRD schema)
-CREATE TABLE IF NOT EXISTS diseases (
-  id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL UNIQUE,
-  poultry_types TEXT[] NOT NULL,
-  symptoms TEXT[] NOT NULL,
-  cause TEXT NOT NULL,
-  treatment TEXT NOT NULL,
-  prevention TEXT NOT NULL,
-  mortality_rate TEXT,  -- e.g., "High (80-100%)"
-  recommended_medicines TEXT[]  -- for linking to F9
-);
-
 -- Insert 20 diseases
 INSERT INTO diseases (name, poultry_types, symptoms, cause, treatment, prevention, mortality_rate, recommended_medicines) VALUES
 ('Newcastle Disease', ARRAY['broiler','layer','kienyeji'], ARRAY['twisted neck','laboured breathing','greenish diarrhoea','dull eyes','ruffled feathers','sudden death'], 'Avian paramyxovirus type 1', 'No specific treatment; supportive care: electrolytes, vitamins. Vaccination of remaining flock.', 'Vaccinate at 1 day, 21 days, 8 weeks. Biosecurity: isolate new birds, disinfect footwear.', 'High (80-100% in unvaccinated)', ARRAY['Newcastle vaccine (LaSota)','Electrolyte supplements','Multivitamins']),
@@ -35,5 +21,4 @@ INSERT INTO diseases (name, poultry_types, symptoms, cause, treatment, preventio
 ('Heat Stress', ARRAY['broiler','layer','kienyeji'], ARRAY['panting','wings spread','lethargy','red comb','sudden death (midday)','reduced feed intake'], 'High ambient temperature (>32°C), poor ventilation, no shade/water', 'Move birds to shade. Provide cool water (add electrolytes/vitamin C). Mist fans. Reduce stocking density.', 'Plant trees. Install ventilation. Ensure water always available (nipple drinkers). Feed early morning/evening.', 'Moderate (5-20% during heatwave)', ARRAY['Vitamin C','Electrolyte powder','Potassium chloride']),
 ('Newcastle Disease (Variant)', ARRAY['broiler','layer','kienyeji'], ARRAY['mild respiratory signs','drop in egg production','few neurological signs','mild diarrhoea','moderate mortality'], 'Avian paramyxovirus (lentogenic or mesogenic strain)', 'Same as classic ND. Supportive care. Vaccination with appropriate strain.', 'Vaccination. Biosecurity.', 'Low (5-20%) but production loss high', ARRAY['Newcastle vaccine (VG/GA or Komarov)','Multivitamins']);
 
--- Verify
-SELECT COUNT(*) FROM diseases;
+ON CONFLICT (name) DO NOTHING

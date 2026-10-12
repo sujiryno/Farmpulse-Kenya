@@ -1,0 +1,19 @@
+project_id = "your-project-ref-here"
+
+[functions.disease-predictor]
+verify_jwt = true
+
+[functions.mpesa-daily-pass]
+verify_jwt = true
+
+[functions.submit-price]
+verify_jwt = true
+
+[functions.export-diseases-to-claude]
+verify_jwt = false
+
+[functions.mpesa-callback]
+verify_jwt = false
+
+[functions.send-outbreak-sms]
+verify_jwt = false
