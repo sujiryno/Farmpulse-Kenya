@@ -1,50 +1,27 @@
-import { createClient } from '@/utils/supabase/server'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { createClient } from '@/lib/supabase/server'
 
-export default async function AdminDashboard() {
+export default async function Home() {
   const supabase = await createClient()
-  
-  // Fetch counts
-  const [pendingVets, pendingFeed, pendingMedicine, totalFarmers, todayPredictions, revenue] = await Promise.all([
-    supabase.from('vets').select('*', { count: 'exact', head: true }).eq('verified', false),
-    supabase.from('feed_prices').select('*', { count: 'exact', head: true }).eq('verified', false),
-    supabase.from('medicine_prices').select('*', { count: 'exact', head: true }).eq('verified', false),
-    supabase.from('farmers').select('*', { count: 'exact', head: true }).eq('role', 'farmer'),
-    supabase.from('predictor_sessions').select('*', { count: 'exact', head: true }).gte('created_at', new Date().toISOString().split('T')[0]),
-    supabase.from('daily_passes').select('amount_kes').eq('status', 'confirmed').gte('activated_at', new Date().toISOString().split('T')[0])
-  ])
-  
-  const totalRevenue = revenue.data?.reduce((sum, p) => sum + (p.amount_kes || 0), 0) || 0
-  
+  const { data, error, count } = await supabase
+    .from('diseases')
+    .select('*', { count: 'exact' })
+
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
-          <CardHeader><CardTitle>Pending Vets</CardTitle></CardHeader>
-          <CardContent><p className="text-3xl font-bold">{pendingVets.count || 0}</p></CardContent>
-        </Card>
-        <Card>
-          <CardHeader><CardTitle>Pending Feed Prices</CardTitle></CardHeader>
-          <CardContent><p className="text-3xl font-bold">{pendingFeed.count || 0}</p></CardContent>
-        </Card>
-        <Card>
-          <CardHeader><CardTitle>Pending Medicine Prices</CardTitle></CardHeader>
-          <CardContent><p className="text-3xl font-bold">{pendingMedicine.count || 0}</p></CardContent>
-        </Card>
-        <Card>
-          <CardHeader><CardTitle>Total Farmers</CardTitle></CardHeader>
-          <CardContent><p className="text-3xl font-bold">{totalFarmers.count || 0}</p></CardContent>
-        </Card>
-        <Card>
-          <CardHeader><CardTitle>Predictions Today</CardTitle></CardHeader>
-          <CardContent><p className="text-3xl font-bold">{todayPredictions.count || 0}</p></CardContent>
-        </Card>
-        <Card>
-          <CardHeader><CardTitle>Revenue Today (KES)</CardTitle></CardHeader>
-          <CardContent><p className="text-3xl font-bold">{totalRevenue}</p></CardContent>
-        </Card>
-      </div>
-    </div>
+    <main className="p-8">
+      <h1 className="text-3xl font-bold text-green-800">FarmPulse Kenya</h1>
+      {error ? (
+        <p className="mt-4 text-red-600">❌ Error: {error.message}</p>
+      ) : (
+        <div className="mt-4">
+          <p className="text-green-600 font-semibold">✅ Connected to Supabase!</p>
+          <p className="mt-2">Found <strong>{count}</strong> diseases.</p>
+          <ul className="mt-4 space-y-1">
+            {data?.slice(0, 5).map((d) => (
+              <li key={d.id}>• {d.name}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </main>
   )
 }
