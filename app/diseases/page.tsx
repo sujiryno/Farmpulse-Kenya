@@ -29,7 +29,10 @@ async function DiseaseResults({
     .select('id, name, poultry_types, symptoms, mortality_rate')
     .order('name')
 
-  if (q) query = query.ilike('name', `%${q}%`)
+  if (q) {
+  // Search name OR any symptom
+  query = query.or(`name.ilike.%${q}%,symptoms.cs.{${q}}`)
+}
   if (type && type !== 'all') query = query.contains('poultry_types', [type])
 
   const { data, error } = await query

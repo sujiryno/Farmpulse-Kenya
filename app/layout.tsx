@@ -15,6 +15,8 @@ const navLinks = [
   { href: '/predictor', label: 'Predictor' },
   { href: '/prices', label: 'Prices' },
   { href: '/vets', label: 'Vets' },
+  { href: '/profit-calculator', label: 'Calculator' },
+  { href: '/profile', label: 'Profile' },
 ]
 
 export default function RootLayout({
