@@ -29,21 +29,14 @@ export default function LoginPage() {
       if (mode === 'signup') {
         // 1. Create auth user
         const { data: authData, error: authError } = await supabase.auth.signUp({
-          email,
-          password,
-        })
-        if (authError) throw authError
-        if (!authData.user) throw new Error('Signup failed — no user returned')
-
-        // 2. Create farmer profile linked to auth user
-        const { error: farmerError } = await supabase.from('farmers').insert({
-          user_id: authData.user.id,
-          phone,
-          name,
-          county,
-          poultry_types: [],
-        })
-        if (farmerError) throw farmerError
+           email,
+           password,
+            options: {
+            data: { phone, name, county },
+            },
+    })
+      if (authError) throw authError
+      if (!authData.user) throw new Error('Signup failed — no user returned')
 
         setMessage('Account created! You can now sign in below.')
         setMode('login')
