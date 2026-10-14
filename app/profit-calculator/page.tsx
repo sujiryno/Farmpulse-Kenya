@@ -1,10 +1,12 @@
 // app/profit-calculator/page.tsx
+import { connection } from 'next/server'
 import { Suspense } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import ProfitForm from '@/components/ProfitForm'
 
 async function Calculator() {
+  await connection() 
   const supabase = await createClient()
   const { data } = await supabase
     .from('feed_prices')

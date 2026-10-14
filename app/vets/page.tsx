@@ -1,4 +1,5 @@
 // app/vets/page.tsx
+import { connection } from 'next/server'
 import { Suspense } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
@@ -10,6 +11,7 @@ async function VetList({
 }: {
   searchParams: Promise<{ county?: string }>
 }) {
+  await connection()  
   const params = await searchParams
   const county = params.county ?? 'All'
 

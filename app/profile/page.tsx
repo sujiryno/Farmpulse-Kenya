@@ -1,13 +1,13 @@
 // app/profile/page.tsx
+import { connection } from 'next/server'
 import { Suspense } from 'react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import ProfileForm from '@/components/ProfileForm'
 
 async function LoadProfile() {
-  await cookies() // force dynamic rendering
+  await connection() // ← was: await cookies()
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()

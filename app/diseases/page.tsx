@@ -1,4 +1,5 @@
 // app/diseases/page.tsx
+import { connection } from 'next/server'
 import { Suspense } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
@@ -18,6 +19,7 @@ async function DiseaseResults({
 }: {
   searchParams: Promise<{ q?: string; type?: string }>
 }) {
+   await connection()
   const params = await searchParams
   const q = params.q ?? ''
   const type = params.type ?? 'all'
