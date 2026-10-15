@@ -5,6 +5,11 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 
 import { KENYA_COUNTIES } from '@/lib/constants'
+import type { Metadata } from 'next'
+export const metadata: Metadata = {
+  title: 'Feed Prices',
+  description: 'Compare current poultry feed prices across Kenya.',
+}
 
 async function PriceList({
   searchParams,

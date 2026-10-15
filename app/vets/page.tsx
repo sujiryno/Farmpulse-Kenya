@@ -5,6 +5,11 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 
 import { KENYA_COUNTIES } from '@/lib/constants'
+import type { Metadata } from 'next'
+export const metadata: Metadata = {
+  title: 'Find a Vet',
+  description: 'Connect with registered veterinarians across Kenya.',
+}
 
 async function VetList({
   searchParams,

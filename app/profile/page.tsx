@@ -5,6 +5,11 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import ProfileForm from '@/components/ProfileForm'
+import type { Metadata } from 'next'
+export const metadata: Metadata = {
+  title: 'My Profile',
+  description: 'Manage your farmer profile.',
+}
 
 async function LoadProfile() {
   await connection() // ← was: await cookies()

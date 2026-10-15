@@ -3,6 +3,11 @@ import { connection } from 'next/server'
 import { Suspense } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import type { Metadata } from 'next'
+export const metadata: Metadata = {
+  title: 'Disease Library',
+  description: 'Browse common poultry diseases in Kenya.',
+}
 
 const POULTRY_TYPES = [
   { value: 'all', label: 'All Birds' },

@@ -4,6 +4,11 @@ import { Suspense } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import ProfitForm from '@/components/ProfitForm'
+import type { Metadata } from 'next'
+export const metadata: Metadata = {
+  title: 'Profit Calculator',
+  description: 'Estimate profit or loss for your flock cycle.',
+}
 
 async function Calculator() {
   await connection() 

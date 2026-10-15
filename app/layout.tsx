@@ -4,7 +4,10 @@ import Link from 'next/link'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'FarmPulse Kenya — AI Poultry Health',
+  title: {
+    default: 'FarmPulse Kenya — AI Poultry Health',
+    template: '%s | FarmPulse Kenya',
+  },
   description:
     'AI-powered poultry disease diagnosis, feed & medicine prices, and vet directory for Kenyan farmers.',
 }

@@ -5,6 +5,11 @@ import { redirect } from 'next/navigation'
 import { connection } from 'next/server'          // ← ADD THIS IMPORT
 import { createClient } from '@/lib/supabase/server'
 import PredictorClient from '@/components/PredictorClient'
+import type { Metadata } from 'next'
+export const metadata: Metadata = {
+  title: 'AI Disease Predictor',
+  description: 'Get an instant AI diagnosis for your flock.',
+}
 
 async function AuthenticatedPredictor() {
   await connection()                               // ← ADD THIS FIRST LINE
