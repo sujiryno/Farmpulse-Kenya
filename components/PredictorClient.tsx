@@ -55,7 +55,6 @@ const POULTRY_TYPES = [
 ]
 
 export default function PredictorClient() {
-  const supabase = createClient()
 
   const [poultryType, setPoultryType] = useState('broiler')
   const [selected, setSelected] = useState<string[]>([])
@@ -104,6 +103,7 @@ export default function PredictorClient() {
     }
 
     setLoading(true)
+    const supabase = createClient()
     try {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) {
