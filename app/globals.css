@@ -24,3 +24,18 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+@layer base {
+  input,
+  textarea,
+  select {
+    color: #111827; /* gray-900 */
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: #6b7280; /* gray-500 */
+    opacity: 1; /* Firefox renders placeholders with reduced opacity by default */
+  }
+  select {
+    color: #111827;
+  }
+}
