@@ -3,17 +3,8 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { KENYA_COUNTIES, POULTRY_TYPES } from '@/lib/constants'
 
-const COUNTIES = [
-  'Kiambu', 'Nairobi', 'Nakuru', 'Kisumu', 'Mombasa',
-  'Kisii', 'Machakos', 'Kajiado', 'Eldoret', 'Thika',
-]
-
-const POULTRY_TYPES = [
-  { value: 'broiler', label: 'Broilers' },
-  { value: 'layer', label: 'Layers' },
-  { value: 'kienyeji', label: 'Kienyeji' },
-]
 
 type Farmer = {
   id: string
@@ -104,7 +95,7 @@ export default function ProfileForm({ farmer }: { farmer: Farmer }) {
           onChange={(e) => setCounty(e.target.value)}
           className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600"
         >
-          {COUNTIES.map((c) => (
+          {KENYA_COUNTIES.map((c) => (
             <option key={c}>{c}</option>
           ))}
         </select>

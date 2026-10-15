@@ -4,7 +4,7 @@ import { Suspense } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 
-const COUNTIES = ['All', 'Kiambu', 'Nairobi', 'Nakuru', 'Kisumu', 'Mombasa']
+import { KENYA_COUNTIES } from '@/lib/constants'
 
 async function PriceList({
   searchParams,
@@ -105,22 +105,27 @@ export default function PricesPage({
         Compare current poultry feed prices across Kenya.
       </p>
 
-      <form method="GET" className="mb-6 space-y-3">
-        <div className="flex flex-wrap gap-2">
-          {COUNTIES.map((c) => (
-            <button
-              key={c}
-              type="submit"
-              name="county"
-              value={c}
-              className="px-4 py-2 rounded-full text-sm font-medium bg-white text-gray-700 border border-gray-300 hover:bg-green-50 hover:border-green-300 transition-colors"
-            >
-              {c}
-            </button>
-          ))}
-        </div>
-      </form>
-
+      <form method="GET" className="mb-6 flex flex-wrap gap-3 items-end">
+  <div className="flex-1 min-w-[200px]">
+    <label className="block text-sm text-gray-600 mb-1">Filter by county</label>
+    <select
+      name="county"
+      defaultValue="All"
+      className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-600"
+    >
+      <option value="All">All counties</option>
+      {KENYA_COUNTIES.map((c) => (
+        <option key={c} value={c}>{c}</option>
+      ))}
+    </select>
+  </div>
+  <button
+    type="submit"
+    className="bg-green-700 hover:bg-green-800 text-white px-6 py-2 rounded-lg font-medium transition-colors"
+  >
+    Filter
+  </button>
+</form>
       <Suspense fallback={<LoadingSkeleton />}>
         <PriceList searchParams={searchParams} />
       </Suspense>
