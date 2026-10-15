@@ -23,7 +23,7 @@ export default function LoginPage() {
     setError('')
     setMessage('')
     setLoading(true)
-    
+
     const supabase = createClient()
 
     try {
@@ -78,7 +78,7 @@ export default function LoginPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-green-600"
               />
               <input
                 type="tel"
@@ -87,6 +87,7 @@ export default function LoginPage() {
                 onChange={(e) => setPhone(e.target.value)}
                 required
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600"
+
               />
               <input
                 type="text"
@@ -95,6 +96,7 @@ export default function LoginPage() {
                 onChange={(e) => setCounty(e.target.value)}
                 required
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600"
+
               />
             </>
           )}
@@ -106,6 +108,7 @@ export default function LoginPage() {
             onChange={(e) => setEmail(e.target.value)}
             required
             className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600"
+
           />
 
           <input
@@ -116,6 +119,7 @@ export default function LoginPage() {
             required
             minLength={6}
             className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600"
+
           />
 
           {error && (
