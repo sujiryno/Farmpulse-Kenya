@@ -68,7 +68,7 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 async function fetchDahl(url: string, init: RequestInit, maxAttempts = 3): Promise<Response> {
   for (let attempt = 1; ; attempt++) {
     const ctrl = new AbortController()
-    const timer = setTimeout(() => ctrl.abort(), 25_000) // per attempt
+    const timer = setTimeout(() => ctrl.abort(), 28_000) // per attempt
     try {
       const res = await fetch(url, { ...init, signal: ctrl.signal })
       if ((res.status === 429 || res.status >= 500) && attempt < maxAttempts) {
@@ -128,9 +128,13 @@ async function callDahl(system: string, userText: string, photo?: { data: string
 // Parse + sanitise model JSON (also a safety net)
 // ─────────────────────────────────────────────────────────
 function parseDiagnosisJson(text: string) {
+// Strip markdown code blocks if the AI added them (e.g. ```json ... ```)
+  const cleanedText = text.replace(/```json/gi, '').replace(/```/g, '')
   const start = text.indexOf('{')
   const end = text.lastIndexOf('}')
-  if (start === -1 || end <= start) throw new Error('No JSON in model output')
+  if (start === -1 || end <= start)
+    console.error("Raw AI output:", text) // Log it so we can see it in Supabase
+    throw new Error('No JSON in model output')
 
   const parsed = JSON.parse(text.slice(start, end + 1))
   const diagnoses = (Array.isArray(parsed.diagnoses) ? parsed.diagnoses : [])
