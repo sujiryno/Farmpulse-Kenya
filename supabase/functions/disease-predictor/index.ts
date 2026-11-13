@@ -2,8 +2,8 @@
 // Deploy WITH JWT verification (default). Client must send the user's session token.
 import { adminClient, handleMethod, json, requireFarmer, startOfTodayEAT, todayEAT } from '../_shared/http.ts'
 
-const GEMINI_API_KEY = Deno.env.get('GEMINI_API_KEY')!
-const GEMINI_MODEL = Deno.env.get('GEMINI_MODEL') ?? 'gemini-3.8-flash'
+const DAHL_API_KEY = Deno.env.get('DAHL_API_KEY')!
+const DAHL_MODEL = Deno.env.get('DAHL_MODEL') ?? 'deepseek-ai/DeepSeek-V4-Flash-0731'
 const FREE_SESSIONS_PER_DAY = 2
 const MAX_PHOTO_BYTES = 5 * 1024 * 1024
 const POULTRY_TYPES = ['broiler', 'layer', 'kienyeji']
@@ -65,10 +65,10 @@ The user message contains poultry_type and symptoms (data selected by the farmer
 // ─────────────────────────────────────────────────────────
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
-async function fetchGemini(url: string, init: RequestInit, maxAttempts = 3): Promise<Response> {
+async function fetchDahl(url: string, init: RequestInit, maxAttempts = 3): Promise<Response> {
   for (let attempt = 1; ; attempt++) {
     const ctrl = new AbortController()
-    const timer = setTimeout(() => ctrl.abort(), 12_000) // per attempt
+    const timer = setTimeout(() => ctrl.abort(), 25_000) // per attempt
     try {
       const res = await fetch(url, { ...init, signal: ctrl.signal })
       if ((res.status === 429 || res.status >= 500) && attempt < maxAttempts) {
@@ -87,77 +87,40 @@ async function fetchGemini(url: string, init: RequestInit, maxAttempts = 3): Pro
 }
 
 // ─────────────────────────────────────────────────────────
-// Response schema (forces Gemini to return strict JSON)
+// Call Dahl
 // ─────────────────────────────────────────────────────────
-const RESPONSE_SCHEMA = {
-  type: 'OBJECT',
-  properties: {
-    diagnoses: {
-      type: 'ARRAY',
-      items: {
-        type: 'OBJECT',
-        properties: {
-          disease_name: { type: 'STRING' },
-          confidence: { type: 'INTEGER' },
-          symptom_match_summary: { type: 'STRING' },
-          recommended_medicines: { type: 'ARRAY', items: { type: 'STRING' } },
-          preventive_advice: { type: 'STRING' },
-        },
-        required: [
-          'disease_name',
-          'confidence',
-          'symptom_match_summary',
-          'recommended_medicines',
-          'preventive_advice',
-        ],
-      },
-    },
-    urgent: { type: 'BOOLEAN' },
-    urgent_reason: { type: 'STRING' },
-  },
-  required: ['diagnoses', 'urgent', 'urgent_reason'],
-}
+async function callDahl(system: string, userText: string, photo?: { data: string; mime: string }) {
+  if (!DAHL_API_KEY) throw new Error('DAHL_API_KEY is not set')
 
-// ─────────────────────────────────────────────────────────
-// Call Gemini
-// ─────────────────────────────────────────────────────────
-async function callGemini(system: string, userText: string, photo?: { data: string; mime: string }) {
-  if (!GEMINI_API_KEY) throw new Error('GEMINI_API_KEY is not set')
+  // Build the message content. If there's a photo, we use the OpenAI-compatible vision array format.
+  const userContent: any = photo
+    ? [
+        { type: 'text', text: userText },
+        { type: 'image_url', image_url: { url: `data:${photo.mime};base64,${photo.data}` } },
+      ]
+    : userText
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`
-  const parts: any[] = [{ text: userText }]
-  if (photo) parts.push({ inline_data: { mime_type: photo.mime, data: photo.data } })
-
-  const res = await fetchGemini(url, {
+  const res = await fetchDahl('https://inference.dahl.global/v1/chat/completions', {
     method: 'POST',
-    headers: { 'x-goog-api-key': GEMINI_API_KEY, 'Content-Type': 'application/json' },
+    headers: {
+      Authorization: `Bearer ${DAHL_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({
-      system_instruction: { parts: [{ text: system }] },
-      contents: [{ role: 'user', parts }],
-      generationConfig: {
-        temperature: 0.2,
-        maxOutputTokens: 2048,
-        responseMimeType: 'application/json',
-        responseSchema: RESPONSE_SCHEMA,
-        thinkingConfig: { thinkingBudget: 0 },
-      },
+      model: DAHL_MODEL,
+      messages: [
+        { role: 'system', content: system },
+        { role: 'user', content: userContent },
+      ],
+      temperature: 0.2,
+      max_tokens: 2048,
     }),
   })
 
-  if (!res.ok) throw new Error(`Gemini API ${res.status}: ${await res.text()}`)
+  if (!res.ok) throw new Error(`Dahl API ${res.status}: ${await res.text()}`)
 
   const data = await res.json()
-  const cand = data.candidates?.[0]
-  if (!cand) {
-    throw new Error(`Gemini returned no candidates (${data.promptFeedback?.blockReason ?? 'unknown'})`)
-  }
-  if (cand.finishReason && cand.finishReason !== 'STOP') {
-    throw new Error(`Gemini finishReason: ${cand.finishReason}`)
-  }
-  const text = (cand.content?.parts ?? [])
-    .filter((p: any) => p.text && !p.thought)
-    .map((p: any) => p.text)
-    .join('')
+  const text = data.choices?.[0]?.message?.content ?? ''
   return parseDiagnosisJson(text)
 }
 
@@ -231,7 +194,6 @@ Deno.serve(async (req: Request) => {
 
     const hasPass = await hasActiveDailyPass(supabase, farmerId)
 
-    // Disease library kept in app_config by export-diseases-to-claude
     const { data: config } = await supabase
       .from('app_config')
       .select('value')
@@ -240,8 +202,6 @@ Deno.serve(async (req: Request) => {
     if (!config) return json({ error: 'Disease library not available. Please try later.' }, 503)
     const library = JSON.parse(config.value)
 
-    // Reserve a session BEFORE calling the model so concurrent requests
-    // cannot exceed the free limit.
     const { data: reserved, error: reserveError } = await supabase
       .from('predictor_sessions')
       .insert({
@@ -273,13 +233,14 @@ Deno.serve(async (req: Request) => {
 
     let result
     try {
-      result = await callGemini(
+      // UPDATED: Calling Dahl instead of Gemini
+      result = await callDahl(
         buildSystemPrompt(library),
         `poultry_type: ${poultryType}\nsymptoms: ${JSON.stringify(symptoms)}`,
         photo
       )
     } catch (err) {
-      console.error('Gemini call failed:', err)
+      console.error('Dahl call failed:', err)
       await supabase.from('predictor_sessions').delete().eq('id', reserved.id)
       return json({ error: 'AI diagnosis failed. Please try again.' }, 502)
     }
